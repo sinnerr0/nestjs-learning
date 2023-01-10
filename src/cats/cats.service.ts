@@ -1,28 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { Cat } from './entities/cat.entity';
 
 @Injectable()
 export class CatsService {
+  private id = 0;
+  private readonly cats: Cat[] = [];
+
   create(createCatDto: CreateCatDto) {
-    console.log(createCatDto);
-    return 'This action adds a new cat';
+    this.cats.push({ ...createCatDto, id: this.id++ });
   }
 
-  findAll() {
-    return `This action returns all cats`;
+  findAll(): Cat[] {
+    return this.cats;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cat`;
+  findOne(id: number): Cat {
+    const cat = this.cats.find((cat) => cat.id === id);
+    return cat;
   }
 
   update(id: number, updateCatDto: UpdateCatDto) {
-    console.log(updateCatDto);
-    return `This action updates a #${id} cat`;
+    const index = this.cats.findIndex((cat) => cat.id === id);
+    if (index > -1) {
+      this.cats[index] = { ...this.cats[index], ...updateCatDto };
+    }
   }
 
   remove(id: number) {
-    return `This action removes a #${id} cat`;
+    const index = this.cats.findIndex((cat) => cat.id === id);
+    if (index > -1) {
+      this.cats.splice(index, 1);
+    }
   }
 }
