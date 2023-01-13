@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -23,6 +25,18 @@ export class CatsController {
   @Get()
   findAll() {
     return this.catsService.findAll();
+  }
+
+  @Get('error')
+  async error() {
+    try {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    } catch (error) {
+      throw new HttpException(
+        'This is a custom message!!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get(':id')
