@@ -8,6 +8,8 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  ParseIntPipe,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -40,8 +42,19 @@ export class CatsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.catsService.findOne(+id);
+  findOne(
+    @Param('id', ParseIntPipe)
+    id: number,
+  ) {
+    return this.catsService.findOne(id);
+  }
+
+  @Get('/uuid/:uuid')
+  async findOneUuid(
+    @Param('uuid', ParseUUIDPipe)
+    uuid: string,
+  ) {
+    return this.catsService.findOneUuid(uuid);
   }
 
   @Patch(':id')

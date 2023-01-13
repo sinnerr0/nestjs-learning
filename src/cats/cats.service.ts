@@ -21,6 +21,11 @@ export class CatsService {
     return cat;
   }
 
+  findOneUuid(id: string): Cat {
+    const cat = this.cats.find((cat) => cat.id === Number(id));
+    return cat;
+  }
+
   update(id: number, updateCatDto: UpdateCatDto) {
     const index = this.cats.findIndex((cat) => cat.id === id);
     if (index > -1) {
