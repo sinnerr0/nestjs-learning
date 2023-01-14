@@ -12,7 +12,8 @@ export class CatsService {
     this.cats.push({ ...createCatDto, id: this.id++ });
   }
 
-  findAll(): Cat[] {
+  findAll({ activeOnly, page }: { activeOnly: boolean; page: number }): Cat[] {
+    console.log(activeOnly, page);
     return this.cats;
   }
 
