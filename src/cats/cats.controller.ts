@@ -13,16 +13,20 @@ import {
   Query,
   DefaultValuePipe,
   ParseBoolPipe,
+  UseGuards,
 } from '@nestjs/common';
+import { Roles, RolesGuard } from '../common/roles.guard';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Controller('cats')
+@UseGuards(RolesGuard)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Post()
+  @Roles('admin')
   create(@Body() createCatDto: CreateCatDto) {
     return this.catsService.create(createCatDto);
   }
