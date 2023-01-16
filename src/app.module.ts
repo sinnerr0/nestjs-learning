@@ -5,9 +5,10 @@ import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
 import { HttpExceptionFilter } from './common/http-exception.filter';
 import { LoggingInterceptor } from './common/logging.interceptor';
+import { ConfigModule } from './config/config.module';
 
 @Module({
-  imports: [CatsModule],
+  imports: [ConfigModule.register({ folder: './config' }), CatsModule],
   controllers: [AppController],
   providers: [
     AppService,
