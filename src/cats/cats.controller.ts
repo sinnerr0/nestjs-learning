@@ -15,6 +15,7 @@ import {
   ParseBoolPipe,
   UseGuards,
 } from '@nestjs/common';
+import { User } from 'src/common/decorator/user.decorator';
 import { Roles, RolesGuard } from '../common/roles.guard';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -27,7 +28,7 @@ export class CatsController {
 
   @Post()
   @Roles('admin')
-  create(@Body() createCatDto: CreateCatDto) {
+  create(@Body() createCatDto: CreateCatDto, @User() user: any) {
     return this.catsService.create(createCatDto);
   }
 
